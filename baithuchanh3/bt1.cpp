@@ -24,7 +24,18 @@ void merge_Sort(HocSinh a[], int l, int r) {
         }
     }
 }
+void search(HocSinh a[], int l, int r, string s) {
+    if (l > r) {
+        cout << "Không thấy";
+    }
+    int m = l - (l-r)/2;
+    if (a[m].ten.compare(s) == 0) cout << right << setw(25) << a[m].hodem << setw(11) << a[m].ten << setw(12) << a[m].namsinh << setw(20) << a[m].diachi << "\n"; 
+    else if (a[m].ten.compare(s) < 0) search(a, l, m, s);
+    else search(a, m+1, r, s);
+    
+}
 int main() {
+    system("chcp 65001");
     HocSinh a[6]= {{"Linh", "Mã Tùng", 1998, "Mai Dịch"},
                         {"Quang", "Mai Văn", 1997, "La Mai"},
                         {"Văn", "Trần Trung", 1996, "Trung Trữ"},
@@ -36,4 +47,7 @@ int main() {
     for (int i = 0; i<6;i++) {
         cout << right << setw(3) << (i+1) << setw(25) << a[i].hodem << setw(11) << a[i].ten << setw(12) << a[i].namsinh << setw(20) << a[i].diachi << "\n";
     }
+    string s;
+    cin >> s;
+    search(a,0,5,s);
 }
