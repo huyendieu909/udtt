@@ -42,6 +42,7 @@ void A2(int k, vector<string> &N, char G[], int id[], int n, bool flag[], int &c
     }
 }
 int main() {
+    system("chcp 65001");
     char G[] = {'A', 'B', 'C', 'D'};
     vector<string> N = {"Tung", "Cuc", "Truc", "Mai"}; 
     int n = 4, count=0;
