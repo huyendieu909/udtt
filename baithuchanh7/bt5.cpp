@@ -1,56 +1,68 @@
 #include <bits/stdc++.h>
 using namespace std;
-int char_in_string (char c, string s){
-	for (int i = 0; i < s.size(); i++) {
-		if (c == s[i]) return i;
+struct laptop {
+	string tenhang;
+	string cauhinh;
+	double giaban;
+};
+int char_in_string (char c, string p) {
+	for (int i = p.size()-1; i >= 0; i--) {
+		if (c == p[i]) return i;
 	}
 	return -1;
 }
-int F1(string s, string p, vector<int> &pos) {
-	int i = p.size()-1;
-	while (i < s.size()) {
-		int x = p.size()-1;
-		while (s[i] == p[x] && x > -1) {
-			i--; x--;
+int F1 (string t, string p) {
+	int i = p.size() - 1;
+	while (i < t.size()) {
+		int x = p.size() - 1;
+		while (t[i] == p[x] && x >= 0) {
+			i--;x--;
 		}
-		if (x < 0) {
-			pos.push_back(i+1);
-			i += p.size()+1;
-		}
+		if (x < 0) return i+1;
 		else {
-			int k = char_in_string(s[i], p);
-			if (k < 0) i += p.size();
+			int k = char_in_string (t[i], p);
+			if (k < 0) i+=p.size();
 			else i = i + p.size() - k - 1;
 		}
 	}
-	return pos.size();
+	return -1;
 }
-//abdjfksj
-//saf
-string thay(string s, string p, string q, vector<int> pos) {
-	int i = 0, j = 0;
-	string ss ="";
-	while (i < s.size()) {
-		if (i == pos[j]){
-			ss += q;
-			i+=p.size();
-			j++;
-		}
-		else {
-			ss += s[i];
-			i++;
+int F3 (vector<laptop> d, string yc) {
+	int r = 0;
+	for (laptop i : d) if (F1(i.cauhinh, yc) >= 0) r++;
+	return r;
+}
+int F4(vector<laptop> d, string yc2, vector<laptop> &t) {
+	int s = 0;
+	for (laptop i : d) {
+		if (F1(i.cauhinh, yc2) >= 0) {
+			t.push_back(i);
+			s++;
 		}
 	}
-	return ss;
+	return s;
+}
+void showF4(int s, vector<laptop> t) {
+	cout << "s = " << s <<'\n';
+	if (s > 0) {
+		cout << setw(18) << "Ten hang san xuat" << setw(40) << "Cau hinh" << setw(21) << "Gia ban" << "\n"; 
+		for (laptop i : t) {
+			cout << setw(18) << i.tenhang << setw(45) << i.cauhinh << setw(17) << setprecision(20) << i.giaban << "\n"; 
+		}
+	}	
 }
 int main() {
-	string s = "ba thuong con vi con giong me.";
-	cout << s << '\n';
-	string p = "con";
-	cout << p << '\n';
-	vector<int> pos;
-	cout << F1(s, p, pos);
-	cout << "\n";
-	cout <<	thay(s, p, "con trai", pos);
-	
+	vector<laptop> d = {{"HP", "CPU 2.5GHz upto 3.5GHz-RAM 16GB-SSD 512GB", 15000000},
+						{"ACER", "CPU 2.5GHz upto 3.5GHz-RAM 8GB-HDD 2TB", 12000000},
+						{"SAMSUNG", "CPU 2.9GHz upto 3.9GHz-RAM 8GB-SSD 512GB", 15000000},
+						{"ASUS", "CPU 2.99GHz upto 4.2GHz-RAM 16GB-HDD 512GB", 17000000},
+						{"DEL", "CPU 2.99GHz upto 4.2GHz-RAM 16GB-SSD 256GB", 16000000}};
+	string yc1 = "RAM 16GB";
+	string yc2 = "SSD";
+	int r = F3(d, yc1);
+	cout << "r = " << r << '\n';
+	int s = 0;
+	vector<laptop> t;
+	s = F4(d, yc2, t);
+	showF4(s,t);
 }
