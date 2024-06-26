@@ -1,29 +1,30 @@
 #include <bits/stdc++.h>
 using namespace std;
-void z_al(string s, int z[]) {
-	int l = 0, r = 0;
-	z[0] = -1;
-	for (int i = 1; i < s.size(); i++) {
-		if (i > r) {
-			l = r = i;
-			while (r < s.size() && s[r] == s[r-l]) r++;
-			z[i] = r-l; r--; 
-		} else if (z[i - l] < r - i + 1) {
-			z[i] = z[i - l];
-		} else {
-			l = i;
-			while (r < s.size() && s[r] == s[r-l]) r++;
-			z[i] = r-l; r--;
+void algo (vector<int> a, int L[], int T[]) {
+	int n = a.size() - 2;
+	L[n+1] = 1;
+	for (int i = n; i>=0;i--) {
+		int jmax = n+1;
+		for (int j = i+1; j <= n+1; j++) {
+			if (a[j] > a[i] && L[j] > L[jmax]) jmax = j;
 		}
+		L[i] = L[jmax] +1;
+		T[i] = jmax;
+	}
+}
+void truy_vet(vector<int> a, int T[]) {
+	int k = T[0];
+	while (k != a.size() - 1) {
+		cout << a[k] << " ";
+		k = T[k];
 	}
 }
 int main() {
-	string s = "ba thuong con vi con giong me.";
-	string p = "con";
-	string ss = p + "$" + s;
-	int z[ss.size()] = {0};
-	z_al(ss, z);
-	for (int i : z) cout << i << " ";
+	vector<int> a = {-INT32_MAX-1, 5,2,3,4,9,10,5,6,7,8, INT32_MAX};
+	int L[a.size()] = {0};
+	int T[a.size()] = {0};
+	algo(a,L,T);
+	truy_vet(a, T);
 }
 
 
